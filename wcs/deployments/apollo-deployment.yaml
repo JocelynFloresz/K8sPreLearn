@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apollo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      components: apollo
+  template:
+    metadata:
+      labels:
+        components: apollo
+    spec:
+      containers:
+        - name: apollo-config
+          image: apolloconfig/apollo-configservice:latest
+          ports:
+            - containerPort:
+
+        - name: apollo-admin
+          image: apolloconfig/apollo-adminservice:latest
+          ports:
+            - containerPort:
+
+        - name: apollo-portal
+          image: apolloconfig/apollo-portal:latest
+          ports:
+            - containerPort: 8070

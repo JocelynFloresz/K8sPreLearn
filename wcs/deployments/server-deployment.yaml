@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server-api
+          image:
+          ports:
+            - containerPort: 9090
+          env:
+            - name: MYSQLPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysqlpass
+                  key: MYSQLPASSWORD
