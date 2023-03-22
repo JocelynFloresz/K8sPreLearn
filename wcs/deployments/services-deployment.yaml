@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+        app: wcs-uat
+        enviroment: dev
+    spec:
+      containers:
+        - name: wcs-api
+          image:
+          ports:
+            - containerPort: 9090
+          env:
+            - name: MYSQLPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysqlpass
+                  key: MYSQLPASSWORD
+          command:
+            [
+              "java",
+              "-Dapollo.cluster=default",
+              "-Denv=PRO",
+              "-Dapollo.meta=http://deploy-apollo-config:8080",
+              "-jar",
+              "/jar/xsyx-zhwl-wcs-api.jar",
+            ]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+        app: wcs-uat
+        enviroment: dev
+    spec:
+      containers:
+        - name: server-api
+          image:
+          ports:
+            - containerPort: 9090
+          env:
+            - name: MYSQLPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysqlpass
+                  key: MYSQLPASSWORD
+          command:
+            [
+              "java",
+              "-Dapollo.cluster=default",
+              "-Denv=PRO",
+              "-Dapollo.meta=http://deploy-apollo-config:8080",
+              "-jar",
+              "/jar/xsyx-zhwl-wcs-api.jar",
+            ]
