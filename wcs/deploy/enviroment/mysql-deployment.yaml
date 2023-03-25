@@ -25,12 +25,12 @@ spec:
             - name: mysql-storage
               mountPath: /var/lib/mysql
               subPath: mysql
-          env:
-            - name: MYSQLPASSWORD
-              value:
-                secretKeyRef:
-                  name: mysqlpassword
-                  value: MYSQLPASSWORD
+          envFrom:
+            - configMapRef:
+                name: mysql-configmap
+            - secretKeyRef:
+                name: app-secret
+                key: MYSQL_PASS
           args:
             [
               "--default-authentication-plugin=mysql_native_password",

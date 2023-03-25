@@ -17,3 +17,5 @@ spec:
           image: redis:latest
           ports:
             - containerPort: 6379
+          envFrom:
+            name: redis-config
